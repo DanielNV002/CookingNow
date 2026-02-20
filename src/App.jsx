@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
-import { initStorage } from "./infrastructure/db/recipeStorage";
+import { useState, useEffect } from "react";
+import UserLogin from "./features/users/UserLogin";
 import RecipeList from "./features/recipes/RecipeList";
-import RecipeDetail from "./features/recipes/RecipeDetails";
 import RecipeForm from "./features/recipes/RecipeForm";
+import RecipeDetail from "./features/recipes/RecipeDetails";
+import { initStorage } from "./infrastructure/db/recipeStorage";
+import { logout } from "../src/infrastructure/db/userStorage";
+import logOutIcon from "./assets/log-out.svg";
+import Button from "./components/ui/Button";
+import "./App.scss";
 
 export default function App() {
+  const [userId, setUserId] = useState(null);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [addingRecipe, setAddingRecipe] = useState(false);
   const [storageReady, setStorageReady] = useState(false);
-
-  const userId = "usuario1"; // para pruebas offline
 
   // 🔹 Inicializar storage
   useEffect(() => {
@@ -17,11 +21,25 @@ export default function App() {
       await initStorage();
       setStorageReady(true);
     }
+    async function restoreSession() {
+      const saved = await getCurrentUserId();
+      if (saved) {
+        setUserId(saved);
+      }
+    }
     init();
+    restoreSession();
   }, []);
 
-  if (!storageReady) {
-    return <p>Cargando...</p>; // Esperamos que se cree el JSON
+  async function handleLogout() {
+    await logout();
+    setUserId(null);
+  }
+
+  if (!storageReady) return <p>Cargando app...</p>;
+
+  if (!userId) {
+    return <UserLogin onLogin={setUserId} />;
   }
 
   if (addingRecipe) {
@@ -47,26 +65,20 @@ export default function App() {
   }
 
   return (
-    <div>
-      <button
-        style={{
-          position: "fixed",
-          bottom: 20,
-          right: 20,
-          padding: "15px 20px",
-          borderRadius: "50%",
-          backgroundColor: "#5a9",
-          color: "#fff",
-          fontSize: "24px",
-          border: "none",
-          cursor: "pointer",
-        }}
-        onClick={() => setAddingRecipe(true)}
-      >
-        +
-      </button>
+    <div className="mainPage">
+      <div className="logout-button">
+        <Button onClick={handleLogout}>
+          <img src={logOutIcon} alt="Cerrar sesión" />
+        </Button>
+      </div>
 
-      <RecipeList onSelectRecipe={setSelectedRecipe} />
+      <div className="plus-button">
+        <Button onClick={() => setAddingRecipe(true)}>+</Button>
+      </div>
+
+      <div className="Recipe-list">
+        <RecipeList onSelectRecipe={setSelectedRecipe} />
+      </div>
     </div>
   );
 }

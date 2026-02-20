@@ -1,0 +1,26 @@
+.recipe-card {
+  padding: 15px;
+  border: 2px solid var(--color-fondo-modal-borde);
+  background: var(--color-fondo-modal-light);
+  border-radius: 10px;
+  transition: background 0.2s;
+  height: 190px;
+}
+
+.recipe-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.recipe-info h3 {
+  margin: 0 0 4px 0;
+}
+
+.recipe-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}

@@ -1,0 +1,53 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  align-items: center;
+  height: 97vh;
+
+  h1 {
+    position: absolute;
+    top: 3rem;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: var(--color-titulo);
+    -webkit-text-stroke: 2px var(--color-titulo-borde); /* grosor y color del borde */
+  }
+
+  h2 {
+    position: absolute;
+    top: 8.5rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--color-titulo);
+    -webkit-text-stroke: 2px var(--color-titulo-borde); /* grosor y color del borde */
+  }
+
+  input {
+    position: absolute;
+    top: 16rem;
+    // padding: 0.8rem 1.2rem;
+    width: 20rem;
+    font-size: 2rem;
+    background: transparent;
+    border: transparent;
+    justify-content: center;
+    text-align: center;
+    color: var(--blanco);
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: var(--placeholder);
+    }
+  }
+
+  Button {
+    position: absolute;
+    top: 21rem;
+    font-size: 1.3rem;
+  }
+}

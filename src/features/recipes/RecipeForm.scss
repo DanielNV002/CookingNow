@@ -1,10 +1,18 @@
 .recipe-form {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   font-family: sans-serif;
+  min-height: 90vh;
+  background: var(--color-fondo-modal);
+  border: 2px solid var(--color-fondo-modal-borde);
+  border-radius: 10px;
+  justify-content: center;
 
   h1 {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 30px;
   }
 
   label {
@@ -15,11 +23,11 @@
 
   input {
     display: block;
-    width: 100%;
+    width: 94%;
     padding: 8px;
     margin-bottom: 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    background: var(--negro);
   }
 
   .section {
@@ -30,19 +38,13 @@
       font-size: 18px;
     }
 
-    button {
+    .button_anadir {
       margin-top: 5px;
       padding: 6px 12px;
       border-radius: 6px;
       border: none;
-      background-color: #5a9;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.2s;
-
-      &:hover {
-        background-color: #48a;
-      }
+      background-color: var(--color-fondo-boton);
+      color: var(--blanco);
     }
   }
 
@@ -54,23 +56,40 @@
       padding: 10px;
       border-radius: 8px;
       border: none;
-      cursor: pointer;
       flex: 1;
       margin: 0 5px;
       font-size: 16px;
     }
 
     button[type="submit"] {
-      background-color: #5a9;
-      color: #fff;
-
-      &:hover {
-        background-color: #48a;
-      }
+      background-color: var(--color-fondo-boton);
+      color: var(--blanco);
     }
 
     button[type="button"] {
-      background-color: #ccc;
+      background-color: var(--color-fondo-boton-delete);
     }
+  }
+
+  .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    input {
+      flex: 1;
+      margin-bottom: 0; // quitamos el margin viejo
+    }
+  }
+
+  .delete-input {
+    background: var(--color-fondo-boton-delete);
+    border: none;
+    color: var(--blanco);
+    width: 35px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
   }
 }

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { addRecipe } from "../../infrastructure/db/recipeStorage";
 import { createRecipe } from "../../domain/models/Recipe";
+import { saveImage } from "../../utils/imageUtils"; // 🔹 IMPORT CORRECTO
+
 import "./RecipeForm.scss";
 
 export default function RecipeForm({ userId, onSaved, onCancel }) {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState([""]);
   const [steps, setSteps] = useState([""]);
+  const [imagePath, setImagePath] = useState(null);
 
   function handleIngredientChange(index, value) {
     const newIngredients = [...ingredients];
@@ -14,6 +17,29 @@ export default function RecipeForm({ userId, onSaved, onCancel }) {
     setIngredients(newIngredients);
   }
 
+  // Al seleccionar imagen
+  async function handleImage(e) {
+    if (!e.target.files || !e.target.files[0]) return;
+
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = async () => {
+      const base64Full = reader.result;
+      const base64 = base64Full.split(",")[1]; // quitar data:image/...
+
+      const fileName = `${crypto.randomUUID()}.jpg`;
+
+      const uri = await saveImage(fileName, base64);
+
+      console.log("URI guardada:", uri);
+
+      setImagePath(uri);
+    };
+
+    reader.readAsDataURL(file);
+  }
   function handleStepChange(index, value) {
     const newSteps = [...steps];
     newSteps[index] = value;
@@ -24,21 +50,37 @@ export default function RecipeForm({ userId, onSaved, onCancel }) {
     setIngredients([...ingredients, ""]);
   }
 
+  function removeIngredient(index) {
+    if (ingredients.length === 1) return; // evita quedarte sin ninguno
+    const newIngredients = ingredients.filter((_, i) => i !== index);
+    setIngredients(newIngredients);
+  }
+
   function addStep() {
     setSteps([...steps, ""]);
   }
 
+  function removeStep(index) {
+    if (steps.length === 1) return;
+    const newSteps = steps.filter((_, i) => i !== index);
+    setSteps(newSteps);
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
-    const recipe = createRecipe({ title, ingredients, steps }, userId);
+    const recipe = createRecipe(
+      { title, ingredients, steps, imagePath },
+      userId,
+    );
     await addRecipe(recipe);
     onSaved(recipe);
   }
 
   return (
     <form className="recipe-form" onSubmit={handleSubmit}>
-      <h1>➕ Nueva Receta</h1>
-
+      <h1>⭐ Nueva Receta ⭐</h1>
+      <label>Imagen</label>
+      <input type="file" accept="image/*" onChange={handleImage} />{" "}
       <label>Título</label>
       <input
         type="text"
@@ -46,41 +88,54 @@ export default function RecipeForm({ userId, onSaved, onCancel }) {
         onChange={(e) => setTitle(e.target.value)}
         required
       />
-
       <section className="section">
         <h2>Ingredientes</h2>
         {ingredients.map((ing, i) => (
-          <input
-            key={i}
-            type="text"
-            value={ing}
-            placeholder={`Ingrediente ${i + 1}`}
-            onChange={(e) => handleIngredientChange(i, e.target.value)}
-            required
-          />
+          <div key={i} className="input-row">
+            <input
+              type="text"
+              value={ing}
+              placeholder={`Ingrediente ${i + 1}`}
+              onChange={(e) => handleIngredientChange(i, e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="delete-input"
+              onClick={() => removeIngredient(i)}
+            >
+              ✕
+            </button>
+          </div>
         ))}
-        <button type="button" onClick={addIngredient}>
+        <button className="button_anadir" onClick={addIngredient}>
           + Añadir ingrediente
         </button>
       </section>
-
       <section className="section">
         <h2>Pasos</h2>
         {steps.map((step, i) => (
-          <input
-            key={i}
-            type="text"
-            value={step}
-            placeholder={`Paso ${i + 1}`}
-            onChange={(e) => handleStepChange(i, e.target.value)}
-            required
-          />
+          <div key={i} className="input-row">
+            <input
+              type="text"
+              value={step}
+              placeholder={`Paso ${i + 1}`}
+              onChange={(e) => handleStepChange(i, e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="delete-input"
+              onClick={() => removeStep(i)}
+            >
+              ✕
+            </button>
+          </div>
         ))}
-        <button type="button" onClick={addStep}>
+        <button className="button_anadir" onClick={addStep}>
           + Añadir paso
         </button>
       </section>
-
       <div className="buttons">
         <button type="submit">Guardar Receta</button>
         <button type="button" onClick={onCancel}>
