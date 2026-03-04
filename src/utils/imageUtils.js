@@ -50,7 +50,7 @@ export async function saveImage(fileName, base64Data) {
 // Convertir la ruta para mostrar en <img>
 import { Capacitor } from "@capacitor/core";
 export function getImageUrl(path) {
-  console.log(path);
+  // console.log(path);
 
   return Capacitor.convertFileSrc(path);
 }

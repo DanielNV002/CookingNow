@@ -20,15 +20,23 @@
   .plus-button {
     Button {
       position: fixed;
-      bottom: 20px;
+      bottom: 50px;
       right: 20px;
-      padding: 15px 20px;
+      padding: 14px 15px;
       border-radius: 50%;
+      border: 1px solid var(--blanco);
       background-color: var(--color-fondo-boton);
-      color: var(--blanco);
-      font-size: 24px;
-      border: none;
-      cursor: pointer;
+      z-index: 9999;
+
+      img {
+        width: 20px;
+        height: 20px;
+      }
     }
+  }
+
+  .exp-imp-buttons {
+    display: flex;
+    justify-content: right;
   }
 }

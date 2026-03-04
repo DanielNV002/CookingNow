@@ -3,7 +3,6 @@ import { useState } from "react";
 import Button from "./../../components/ui/Button";
 import backArrow from "../../assets/back_arrow.svg";
 import DeleteButton from "../../components/ui/DeleteButton";
-import { Capacitor } from "@capacitor/core";
 import { getImageUrl } from "../../utils/imageUtils";
 
 export default function RecipeDetail({ recipe, onBack }) {
