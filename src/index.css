@@ -1,7 +1,5 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
   color-scheme: light dark;
   color: var(--color-texto);
@@ -11,18 +9,15 @@
   background-position: center;
   background-repeat: repeat-y;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
   --color-fondo-modal: #ffeb7d;
   --color-fondo-modal-light: #fff9a4;
   --color-fondo-modal-borde: #b9850a;
   --color-fondo-modal-backdrop: #00000080;
+
   --color-texto: #b9470a;
   --color-titulo: #fcd917;
   --color-titulo-borde: #b9850a;
+  
   --color-fondo-boton: #214d82;
   --color-fondo-boton-delete: #b93800;
 
